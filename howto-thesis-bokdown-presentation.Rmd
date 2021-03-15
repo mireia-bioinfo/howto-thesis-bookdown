@@ -1,0 +1,255 @@
+---
+title: "How to survive writting your PhD thesis"
+subtitle: "using R and {bookdown}"
+author: "Mireia Ramos"
+institute: "R-Ladies Barcelona"
+date: "2021/03/18 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    css: ["default", "rladies", "rladies-fonts"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+background-image: url(https://i.pinimg.com/originals/c8/31/6a/c8316a686b1fc8d1c06f6ab273169881.gif)
+class: center
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+# Writing your (PhD) thesis
+
+---
+class: center, middle
+
+# Considering your options
+
+![](https://pbs.twimg.com/media/DGR_4QDUIAAEnsE?format=jpg)
+
+---
+class: center, middle
+
+# Choosing a platform
+
+## Microsoft Word
+
+![](https://i.kym-cdn.com/photos/images/newsfeed/001/593/905/5b0.png)
+
+---
+
+# The basics: {rmarkdown}
+
+**{[rmarkdown]()}** is an R package and file format for making dynamic documents with R. 
+
+.pull-left[
+- Easy to write and interpret
+
+- Can contain chunks of **embedded R code** that will be executed when you compile the document
+
+- Multiple output **formats**: docx, pdf and html.
+]
+
+.pull-right[
+![](https://d33wubrfki0l68.cloudfront.net/091dfc13ef4ee0382733b8b6f4f85436fcf0b5a6/eadc1/articles/images/rmd-types.png)
+]
+
+---
+
+# The basics: {rmarkdown}
+
+## Why?
+
+- Integrate data or analyses directly into documents
+
+- Much simpler to learn compared to other tools/languages, like LaTex
+
+- Reference management integration: easy to cite relevant papers and autogenerate bibliographies
+
+---
+
+# The basics: {bookdown}
+
+The **{[bookdown]()}** package is built on top of R Markdown, with added features:
+
+- Multi-page HTML output
+
+- **Numbering and cross-referencing figures/tables/sections/equations**
+
+- **Inserting parts/appendices**
+
+- Imported the GitBook style (https://www.gitbook.com) to create elegant and appealing HTML book pages
+
+
+---
+
+# Getting started with {bookdown}
+
+**1/** Download the GitHub repository https://github.com/rstudio/bookdown-demo as a Zip file, then unzip it locally (or clone).
+
+  ```{bash, eval=FALSE}
+  git clone https://github.com/rstudio/bookdown-demo
+  ```
+
+**2/** Install RStudio IDE.
+
+**3/** Install the R packages {**bookdown**} and {**TinyTex**}
+
+  ```{r, eval=FALSE}
+  install.packages(c("bookdown", "tinytex"))
+  ```
+
+**4/** Open the `bookdown-demo` repository on RStudio (click `bookdown-demo.Rproj`)
+
+**5/** Open the R Markdown file `index.Rmd` and click the button Build Book on the Build tab of RStudio.
+
+---
+
+# Organizing your files and directories
+
+- **`thesis/`**: Individual R markdown files (one for each chapter).
+  + `index.Rmd`: YAML (metadata) with information on how to render your book.
+  + `*.Rmd`: Files comprising the body of your book. 
+      + Will be compiled in alphanumeric order --> name them accordingly. 
+      
+- **`data/`**: Raw data files (.csv, .xlsx, etc.). Further manipulation shoud be done using R scripts or code chunks inside the R Markdown files.
+
+- **`references/`**: .bib files containing your references.
+
+- **`images/`**: Images that to be inserted in your R markdown documents.
+
+- **`renders/`**: Thesis output pdf file.
+
+- **`tex/`**: Necessary files to render the final document.
+  + `before_body.tex`. Custom title page + acknowledgements + abstract.
+  + `preamble.tex`. LaTeX configuration for the output pdf.
+
+---
+
+# Figures
+
+
+---
+
+# Tables
+
+The packages {knitr} and {kableExtra} help you produce awesome tables.
+
+---
+
+# Tables
+
+```{r tab-example}
+library(kableExtra)
+tab <- read.delim("data/hla_gene_polymorphisms.txt")
+tab$HLA.genes <- factor(tab$HLA.genes, levels=unique(tab$HLA.genes))
+grouping <- table(tab$HLA.genes)
+knitr::kable(tab[-1], booktabs = TRUE, linesep = "\\addlinespace", col.names = c("Effect", "Proposed function", "Haplotypes and alleles"), caption = "HLA gene polymorphisms associated with the risk of T1D") %>%
+   kable_styling(font_size = 10, latex_options = c("striped", "hold_position")) %>%
+  pack_rows(index=grouping)
+```
+
+
+---
+
+# Managing citatations
+
+
+---
+
+# Comments and notes with {todoR}
+
+**{[todoR](https://github.com/dokato/todor)}** is an RStudio addin that finds all `TODO`, `FIXME`, `CHANGED` etc. comments in your project or package and shows them as a markers list.
+
+.pull-left[
+**Inside code chunks**
+
+```{r, eval=FALSE}
+simple_function <- 
+  function(a, b) {
+  # TODO check input
+  a + b
+}
+```
+]
+
+.pull-right[
+**In your text**
+
+```{md}
+Bla bla super interesting
+sentence.
+<!-- NOTE find more articles to support this sentence -->
+```
+]
+
+Detecting `todoR` notes and comments:
+
+.pull-left[
+**Using RStudio Addin**
+![](https://github.com/dokato/todor/raw/master/images/pic1.png)
+]
+
+.pull-right[
+**Programmatically**
+```
+> todor::todor()
+```
+]
+
+---
+
+# Comments and notes with {todoR}
+
+**{[todoR](https://github.com/dokato/todor)}** is an RStudio addin that finds all `TODO`, `FIXME`, `CHANGED` etc. comments in your project or package and shows them as a markers list.
+
+
+![](https://github.com/dokato/todor/raw/master/images/pic2.png)
+
+---
+
+# Bonus: Version control
+
+
+---
+
+# (My) Thesis Writing Workflow
+
+**Writing a chapter**
+1. Writing, writing & more writing.
+2. Include citations as you write.
+3. Add notes and comments for yourself using `todoR`.
+
+**Sending to supervisor**
+2. Compile to docx: 
+
+  ```
+  rmarkdown::render(
+    "thesis/index.html", 
+    output_format = bookdown::word_document2(),
+    output_dir = "thesis/drafts_phd/",
+    output_file = gsub(".Rmd", paste0("_", Sys.Date()), i)
+  )
+  ```
+3. Send to my supervisor
+4. Add notes & changes from docx to Rmarkdown using `todoR`.
+
+**Final version**
+1. Compile to pdf.
+
+---
+
+# References & Resources
+
+* [[Book](https://bookdown.org/yihui/bookdown/)] **bookdown: Authoring Books and Technical Documents with R Markdown** by Yihui Xie.
+
+* [[Book](https://bookdown.org/yihui/rmarkdown/)] **R Markdown: The Definitive Guide** by Yihui Xie, J. J. Allaire and Garrett Grolemund.
+
+* [[Cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)] **Rmarkdown cheatsheet** by RStudio. 
+
+* [[Tutorial](https://bookdown.org/thea_knowles/dissertating_rmd_presentation/intro.html)] **Dissertating with RMarkdown and Bookdown** by Thea Knowles.
+
+* [[Blog Post](https://livefreeordichotomize.com/2018/09/14/one-year-to-dissertate/)]. **One year to dissertate** by Lucy D'Agostino McGowan.
+

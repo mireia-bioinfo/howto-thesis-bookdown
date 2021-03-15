@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>How to survive writting your PhD thesis</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Mireia Ramos" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies-fonts.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# How to survive writting your PhD thesis
+## using R and {bookdown}
+### Mireia Ramos
+### R-Ladies Barcelona
+### 2021/03/18 (updated: 2021-03-15)
+
+---
+
+background-image: url(https://i.pinimg.com/originals/c8/31/6a/c8316a686b1fc8d1c06f6ab273169881.gif)
+class: center
+
+
+
+# Writing your (PhD) thesis
+
+---
+class: center, middle
+
+# Considering your options
+
+![](https://pbs.twimg.com/media/DGR_4QDUIAAEnsE?format=jpg)
+
+---
+class: center, middle
+
+# Choosing a platform
+
+## Microsoft Word
+
+![](https://i.kym-cdn.com/photos/images/newsfeed/001/593/905/5b0.png)
+
+---
+
+# The basics: {rmarkdown}
+
+**{[rmarkdown]()}** is an R package and file format for making dynamic documents with R. 
+
+.pull-left[
+- Easy to write and interpret
+
+- Can contain chunks of **embedded R code** that will be executed when you compile the document
+
+- Multiple output **formats**: docx, pdf and html.
+]
+
+.pull-right[
+![](https://d33wubrfki0l68.cloudfront.net/091dfc13ef4ee0382733b8b6f4f85436fcf0b5a6/eadc1/articles/images/rmd-types.png)
+]
+
+---
+
+# The basics: {rmarkdown}
+
+## Why?
+
+- Integrate data or analyses directly into documents
+
+- Much simpler to learn compared to other tools/languages, like LaTex
+
+- Reference management integration: easy to cite relevant papers and autogenerate bibliographies
+
+---
+
+# The basics: {bookdown}
+
+The **{[bookdown]()}** package is built on top of R Markdown, with added features:
+
+- Multi-page HTML output
+
+- **Numbering and cross-referencing figures/tables/sections/equations**
+
+- **Inserting parts/appendices**
+
+- Imported the GitBook style (https://www.gitbook.com) to create elegant and appealing HTML book pages
+
+
+---
+
+# Getting started with {bookdown}
+
+**1/** Download the GitHub repository https://github.com/rstudio/bookdown-demo as a Zip file, then unzip it locally (or clone).
+
+  
+  ```bash
+  git clone https://github.com/rstudio/bookdown-demo
+  ```
+
+**2/** Install RStudio IDE.
+
+**3/** Install the R packages {**bookdown**} and {**TinyTex**}
+
+  
+  ```r
+  install.packages(c("bookdown", "tinytex"))
+  ```
+
+**4/** Open the `bookdown-demo` repository on RStudio (click `bookdown-demo.Rproj`)
+
+**5/** Open the R Markdown file `index.Rmd` and click the button Build Book on the Build tab of RStudio.
+
+---
+
+# Organizing your files and directories
+
+- **`thesis/`**: Individual R markdown files (one for each chapter).
+  + `index.Rmd`: YAML (metadata) with information on how to render your book.
+  + `*.Rmd`: Files comprising the body of your book. 
+      + Will be compiled in alphanumeric order --&gt; name them accordingly. 
+      
+- **`data/`**: Raw data files (.csv, .xlsx, etc.). Further manipulation shoud be done using R scripts or code chunks inside the R Markdown files.
+
+- **`references/`**: .bib files containing your references.
+
+- **`images/`**: Images that to be inserted in your R markdown documents.
+
+- **`renders/`**: Thesis output pdf file.
+
+- **`tex/`**: Necessary files to render the final document.
+  + `before_body.tex`. Custom title page + acknowledgements + abstract.
+  + `preamble.tex`. LaTeX configuration for the output pdf.
+
+---
+
+# Figures
+
+
+---
+
+# Tables
+
+The packages {knitr} and {kableExtra} help you produce awesome tables.
+
+---
+
+# Tables
+
+
+```r
+library(kableExtra)
+tab &lt;- read.delim("data/hla_gene_polymorphisms.txt")
+tab$HLA.genes &lt;- factor(tab$HLA.genes, levels=unique(tab$HLA.genes))
+grouping &lt;- table(tab$HLA.genes)
+knitr::kable(tab[-1], booktabs = TRUE, linesep = "\\addlinespace", col.names = c("Effect", "Proposed function", "Haplotypes and alleles"), caption = "HLA gene polymorphisms associated with the risk of T1D") %&gt;%
+   kable_styling(font_size = 10, latex_options = c("striped", "hold_position")) %&gt;%
+  pack_rows(index=grouping)
+```
+
+&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;"&gt;
+&lt;caption style="font-size: initial !important;"&gt;HLA gene polymorphisms associated with the risk of T1D&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Effect &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Proposed function &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Haplotypes and alleles &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr grouplength="2"&gt;&lt;td colspan="3" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;HLA-DR and HLA-DQ&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Risk &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Presentation of auto-antigens that induce autoimmunity &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Far-eastern/Asian: DRB1*04:05-DQA1*03-DQB1*04:01; DRB1*09-DQA1*03-DQB1*03:03; DRB1*08-DQA1*03-DQB1*03:02. African: DRB1*07-DQA1*03-DQB1*02; DRB1*09-DQA1*03-DQB1*03:02. European: DRB1*04:01/2/4/5-DQA1*03-DQB1*0302; DRB1*03-DQA1*05-DQB1*02; DRB1*04:05-DQA1*03-DQB1*02 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Protection &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Incapacity to present auto-antigens to T helper cells and competitive binding with risk haplotypes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Far-eastern/Asian: DRB1*04:10-DQA1*03-DQB1*04:02. African: DRB1*03-DQA1*04:01-DQB1*04:02; DRB1*08-DQA1*04:01-DQB1*03:01. European: DRB1*15-DQA1*01-DQB1*06:02; DRB1*15-DQA1*01-DQB1*06:01; DRB1*14-DQA1*01-DQB1*05:03; DRB1*07-DQA1*02-DQB1*03:03; DRB1*04:03-DQA1*03-DQB1*03:02 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="2"&gt;&lt;td colspan="3" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;HLA-DP&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Risk &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Presentation of auto-antigens that induce autoimmunity &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DPB1*03:01 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Protection &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Incapacity to present auto-antigens to T helper cells and competitive binding with risk haplotypes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DPB1*04:02 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr grouplength="1"&gt;&lt;td colspan="3" style="border-bottom: 1px solid;"&gt;&lt;strong&gt;HLA class I&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;
+   &lt;td style="text-align:left;padding-left: 2em;" indentlevel="1"&gt; Risk &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Presentation of auto-antigens to cytotoxic CD8+ T cells &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; HL A- A*24; HL A- B*18; HL A-B*39:01; HL A- B*39:06 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+
+# Managing citatations
+
+
+---
+
+# Comments and notes with {todoR}
+
+**{[todoR](https://github.com/dokato/todor)}** is an RStudio addin that finds all `TODO`, `FIXME`, `CHANGED` etc. comments in your project or package and shows them as a markers list.
+
+.pull-left[
+**Inside code chunks**
+
+
+```r
+simple_function &lt;- 
+  function(a, b) {
+  # TODO check input
+  a + b
+}
+```
+]
+
+.pull-right[
+**In your text**
+
+
+```md
+Bla bla super interesting
+sentence.
+&lt;!-- NOTE find more articles to support this sentence --&gt;
+```
+]
+
+Detecting `todoR` notes and comments:
+
+.pull-left[
+**Using RStudio Addin**
+![](https://github.com/dokato/todor/raw/master/images/pic1.png)
+]
+
+.pull-right[
+**Programmatically**
+```
+&gt; todor::todor()
+```
+]
+
+---
+
+# Comments and notes with {todoR}
+
+**{[todoR](https://github.com/dokato/todor)}** is an RStudio addin that finds all `TODO`, `FIXME`, `CHANGED` etc. comments in your project or package and shows them as a markers list.
+
+
+![](https://github.com/dokato/todor/raw/master/images/pic2.png)
+
+---
+
+# Bonus: Version control
+
+
+---
+
+# (My) Thesis Writing Workflow
+
+**Writing a chapter**
+1. Writing, writing &amp; more writing.
+2. Include citations as you write.
+3. Add notes and comments for yourself using `todoR`.
+
+**Sending to supervisor**
+2. Compile to docx: 
+
+  ```
+  rmarkdown::render(
+    "thesis/index.html", 
+    output_format = bookdown::word_document2(),
+    output_dir = "thesis/drafts_phd/",
+    output_file = gsub(".Rmd", paste0("_", Sys.Date()), i)
+  )
+  ```
+3. Send to my supervisor
+4. Add notes &amp; changes from docx to Rmarkdown using `todoR`.
+
+**Final version**
+1. Compile to pdf.
+
+---
+
+# References &amp; Resources
+
+* [[Book](https://bookdown.org/yihui/bookdown/)] **bookdown: Authoring Books and Technical Documents with R Markdown** by Yihui Xie.
+
+* [[Book](https://bookdown.org/yihui/rmarkdown/)] **R Markdown: The Definitive Guide** by Yihui Xie, J. J. Allaire and Garrett Grolemund.
+
+* [[Cheatsheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)] **Rmarkdown cheatsheet** by RStudio. 
+
+* [[Tutorial](https://bookdown.org/thea_knowles/dissertating_rmd_presentation/intro.html)] **Dissertating with RMarkdown and Bookdown** by Thea Knowles.
+
+* [[Blog Post](https://livefreeordichotomize.com/2018/09/14/one-year-to-dissertate/)]. **One year to dissertate** by Lucy D'Agostino McGowan.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

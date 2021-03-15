@@ -1,0 +1,6 @@
+HLA genes	Effect	Possible function	Haplotypes and alleles
+HLA-DR and HLA-DQ	Risk	Presentation of auto-antigens that induce autoimmunity	Far-eastern/Asian: DRB1*04:05-DQA1*03-DQB1*04:01; DRB1*09-DQA1*03-DQB1*03:03; DRB1*08-DQA1*03-DQB1*03:02. African: DRB1*07-DQA1*03-DQB1*02; DRB1*09-DQA1*03-DQB1*03:02. European: DRB1*04:01/2/4/5-DQA1*03-DQB1*0302; DRB1*03-DQA1*05-DQB1*02; DRB1*04:05-DQA1*03-DQB1*02
+HLA-DR and HLA-DQ	Protection	Incapacity to present auto-antigens to T helper cells and competitive binding with risk haplotypes	Far-eastern/Asian: DRB1*04:10-DQA1*03-DQB1*04:02. African: DRB1*03-DQA1*04:01-DQB1*04:02; DRB1*08-DQA1*04:01-DQB1*03:01. European: DRB1*15-DQA1*01-DQB1*06:02; DRB1*15-DQA1*01-DQB1*06:01; DRB1*14-DQA1*01-DQB1*05:03; DRB1*07-DQA1*02-DQB1*03:03; DRB1*04:03-DQA1*03-DQB1*03:02
+HLA-DP	Risk	Presentation of auto-antigens that induce autoimmunity	DPB1*03:01
+HLA-DP	Protection	Incapacity to present auto-antigens to T helper cells and competitive binding with risk haplotypes	DPB1*04:02
+HLA class I	Risk	Presentation of auto-antigens to cytotoxic CD8+ T cells	HL A- A*24; HL A- B*18; HL A-B*39:01; HL A- B*39:06
