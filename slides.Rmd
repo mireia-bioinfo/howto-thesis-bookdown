@@ -1,9 +1,9 @@
 ---
-title: "How to survive writting your PhD thesis"
+title: "How to survive writing your PhD thesis"
 subtitle: "using R and {bookdown}"
-author: "Mireia Ramos"
+author: "Mireia Ramos (@mireia-bioinfo)"
 institute: "R-Ladies Barcelona"
-date: "2021/03/18 (updated: `r Sys.Date()`)"
+date: "2021/03/18"
 output:
   xaringan::moon_reader:
     css: ["default", "rladies", "rladies-fonts"]
@@ -51,7 +51,7 @@ class: center, middle
 
 # The basics: {rmarkdown}
 
-**{[rmarkdown]()}** is an R package and file format for making dynamic documents with R. 
+**{[rmarkdown](https://rmarkdown.rstudio.com/)}** is an R package and file format for making dynamic documents with R. 
 
 .pull-left[
 - Easy to write and interpret
@@ -81,7 +81,7 @@ class: center, middle
 
 # The basics: {bookdown}
 
-The **{[bookdown]()}** package is built on top of R Markdown, with added features:
+The **{[bookdown](https://bookdown.org/)}** package is built on top of R Markdown, with added features:
 
 - Multi-page HTML output
 
@@ -157,7 +157,11 @@ The **{[bookdown]()}** package is built on top of R Markdown, with added feature
   + `fig.width` and `fig.height` (in inches).
   + `out.width` and `out.height`, can be page %.
 
-- Set `echo=FALSE` to avoid displaying your code chunk.
+- Set `echo=FALSE` to avoid displaying your code chunk & `fig.align="center"` to center your figure.
+
+```{r, out.width="50%", echo=TRUE, fig.align="center"}
+knitr::include_graphics("https://media.giphy.com/media/JuFwy0zPzd6jC/giphy.gif")
+```
 
 ---
 
@@ -321,6 +325,12 @@ knitr::include_graphics("images/example_thesis_commits.png")
 
 2. Name all your code chunks.
 
+3. If you want to do major style changes, you should learn some LaTeX.
+
+4. Use `xelatex` as your LaTex engine!
+
+5. You can generate a static website with your analyses and results to acompany your thesis using {[workflowr](https://jdblischak.github.io/workflowr/)}. https://github.com/mireia-bioinfo/phdthesis_code
+
 ---
 
 # References & Resources
@@ -335,3 +345,14 @@ knitr::include_graphics("images/example_thesis_commits.png")
 
 * [[Blog Post](https://livefreeordichotomize.com/2018/09/14/one-year-to-dissertate/)]. **One year to dissertate** by Lucy D'Agostino McGowan.
 
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+```{r, out.width="50%", echo=FALSE}
+knitr::include_graphics("https://media.giphy.com/media/5npYbr2YoUzOo/giphy.gif")
+```
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).

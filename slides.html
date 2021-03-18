@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>How to survive writting your PhD thesis</title>
+    <title>How to survive writing your PhD thesis</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Mireia Ramos" />
+    <meta name="author" content="Mireia Ramos (@mireia-bioinfo)" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/rladies.css" rel="stylesheet" />
@@ -15,11 +15,11 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# How to survive writting your PhD thesis
+# How to survive writing your PhD thesis
 ## using R and {bookdown}
-### Mireia Ramos
+### Mireia Ramos (<span class="citation">@mireia-bioinfo</span>)
 ### R-Ladies Barcelona
-### 2021/03/18 (updated: 2021-03-18)
+### 2021/03/18
 
 ---
 
@@ -59,7 +59,7 @@ class: center, middle
 
 # The basics: {rmarkdown}
 
-**{[rmarkdown]()}** is an R package and file format for making dynamic documents with R. 
+**{[rmarkdown](https://rmarkdown.rstudio.com/)}** is an R package and file format for making dynamic documents with R. 
 
 .pull-left[
 - Easy to write and interpret
@@ -89,7 +89,7 @@ class: center, middle
 
 # The basics: {bookdown}
 
-The **{[bookdown]()}** package is built on top of R Markdown, with added features:
+The **{[bookdown](https://bookdown.org/)}** package is built on top of R Markdown, with added features:
 
 - Multi-page HTML output
 
@@ -167,7 +167,14 @@ The **{[bookdown]()}** package is built on top of R Markdown, with added feature
   + `fig.width` and `fig.height` (in inches).
   + `out.width` and `out.height`, can be page %.
 
-- Set `echo=FALSE` to avoid displaying your code chunk.
+- Set `echo=FALSE` to avoid displaying your code chunk &amp; `fig.align="center"` to center your figure.
+
+
+```r
+knitr::include_graphics("https://media.giphy.com/media/JuFwy0zPzd6jC/giphy.gif")
+```
+
+&lt;img src="https://media.giphy.com/media/JuFwy0zPzd6jC/giphy.gif" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -373,6 +380,12 @@ Use **git** and **GitHub** to control your thesis versions.
 
 2. Name all your code chunks.
 
+3. If you want to do major style changes, you should learn some LaTeX.
+
+4. Use `xelatex` as your LaTex engine!
+
+5. You can generate a static website with your analyses and results to acompany your thesis using {[workflowr](https://jdblischak.github.io/workflowr/)}. https://github.com/mireia-bioinfo/phdthesis_code
+
 ---
 
 # References &amp; Resources
@@ -387,6 +400,15 @@ Use **git** and **GitHub** to control your thesis versions.
 
 * [[Blog Post](https://livefreeordichotomize.com/2018/09/14/one-year-to-dissertate/)]. **One year to dissertate** by Lucy D'Agostino McGowan.
 
+---
+
+class: inverse, center, middle
+
+# Thanks!
+
+&lt;img src="https://media.giphy.com/media/5npYbr2YoUzOo/giphy.gif" width="50%" /&gt;
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
