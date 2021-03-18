@@ -32,11 +32,20 @@ class: center, middle
 ---
 class: center, middle
 
-# Choosing a platform
+# Considering your options
 
 ## Microsoft Word
 
 ![](https://i.kym-cdn.com/photos/images/newsfeed/001/593/905/5b0.png)
+
+---
+class: center, middle
+
+# Considering your options
+
+## LaTeX
+
+![](http://www.phdcomics.com/comics/archive/phd123108s.gif)
 
 ---
 
@@ -114,13 +123,23 @@ The **{[bookdown]()}** package is built on top of R Markdown, with added feature
   + `*.Rmd`: Files comprising the body of your book. 
       + Will be compiled in alphanumeric order --> name them accordingly. 
       
+--
+      
 - **`data/`**: Raw data files (.csv, .xlsx, etc.). Further manipulation shoud be done using R scripts or code chunks inside the R Markdown files.
+
+--
 
 - **`references/`**: .bib files containing your references.
 
+--
+
 - **`images/`**: Images that to be inserted in your R markdown documents.
 
+--
+
 - **`renders/`**: Thesis output pdf file.
+
+--
 
 - **`tex/`**: Necessary files to render the final document.
   + `before_body.tex`. Custom title page + acknowledgements + abstract.
@@ -128,8 +147,17 @@ The **{[bookdown]()}** package is built on top of R Markdown, with added feature
 
 ---
 
-# Figures
+# Images & Figures
 
+- Generate your figures and plots using R.
+
+- Paste external figures using `knitr::include_graphics` (can be local or from a url)
+
+- Edit your image size with:
+  + `fig.width` and `fig.height` (in inches).
+  + `out.width` and `out.height`, can be page %.
+
+- Set `echo=FALSE` to avoid displaying your code chunk.
 
 ---
 
@@ -137,9 +165,6 @@ The **{[bookdown]()}** package is built on top of R Markdown, with added feature
 
 The packages {knitr} and {kableExtra} help you produce awesome tables.
 
----
-
-# Tables
 
 ```{r tab-example}
 library(kableExtra)
@@ -147,15 +172,44 @@ tab <- read.delim("data/hla_gene_polymorphisms.txt")
 tab$HLA.genes <- factor(tab$HLA.genes, levels=unique(tab$HLA.genes))
 grouping <- table(tab$HLA.genes)
 knitr::kable(tab[-1], booktabs = TRUE, linesep = "\\addlinespace", col.names = c("Effect", "Proposed function", "Haplotypes and alleles"), caption = "HLA gene polymorphisms associated with the risk of T1D") %>%
-   kable_styling(font_size = 10, latex_options = c("striped", "hold_position")) %>%
+   kable_styling(font_size = 8, latex_options = c("striped", "hold_position")) %>%
   pack_rows(index=grouping)
 ```
 
 
 ---
 
+# Citatations
+
+## Bibliography
+
+1. Use a citation manager (Mendeley, Zotero).
+
+2. Export your bibliography to bib format.
+
+3. Add `bibliography: your_bibliography.bib` to your `index.Rmd` header.
+  + You can configure your citation styles using `csl` files.
+
+4. Cite using `@PaperKeyword` (you can see the keywords in your bib file).
+  + A references section will be automatically generated at the end of your book.
+
+---
+
 # Managing citatations
 
+## Cross-references
+
+- **Figures**. 
+  
+  `\@ref(fig:chunk-name)`
+
+- **Tables**. 
+
+  `\@ref(tab:chunk-name)`
+
+- **Sections**. Include label in the header of the section you want to reference: `{#chapter-label}`. 
+
+  `\@ref(chapter-label)`
 
 ---
 
@@ -185,6 +239,8 @@ sentence.
 ```
 ]
 
+--
+
 Detecting `todoR` notes and comments:
 
 .pull-left[
@@ -212,7 +268,20 @@ Detecting `todoR` notes and comments:
 
 # Bonus: Version control
 
+.pull-left[
+![](http://www.phdcomics.com/comics/archive/phd101212s.gif)
+]
 
+--
+
+.pull-right[
+Use **git** and **GitHub** to control your thesis versions. 
+
+```{r, echo=FALSE, out.width='70%', fig.align="center"}
+knitr::include_graphics("images/example_thesis_commits.png")
+```
+
+]
 ---
 
 # (My) Thesis Writing Workflow
@@ -221,6 +290,8 @@ Detecting `todoR` notes and comments:
 1. Writing, writing & more writing.
 2. Include citations as you write.
 3. Add notes and comments for yourself using `todoR`.
+
+--
 
 **Sending to supervisor**
 2. Compile to docx: 
@@ -236,8 +307,19 @@ Detecting `todoR` notes and comments:
 3. Send to my supervisor
 4. Add notes & changes from docx to Rmarkdown using `todoR`.
 
+--
+
 **Final version**
 1. Compile to pdf.
+2. Submit!
+
+---
+
+# Extra tips!
+
+1. Don't wait until you have to start writing the thesis to play around with R Markdown and {bookdown}.
+
+2. Name all your code chunks.
 
 ---
 
